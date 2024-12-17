@@ -13,7 +13,7 @@ This Python script enables you to replace the splash screen logo of the DDF-350 
 Ensure you have the following installed:
 
 - Python 3.x
-- [Pillow](https://python-pillow.org/) (PIL library for image processing)
+- Pillow(PIL library for image processing)
 - NumPy
 
 You can install the required libraries using pip:
