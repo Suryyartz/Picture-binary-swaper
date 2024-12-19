@@ -25,7 +25,7 @@ def encode_png_to_monochrome(input_image, output_file, width, height, offset):
 
 if __name__ == "__main__":
     # Example usage
-    input_bin_file = r"C:\Users\Abdulhamid\Downloads\Compressed\mod\DDF.bin"  # Binary file to overwrite
+    input_bin_file = "DDF.bin"  # Binary file to overwrite
     modified_image = "lumo.png"  # Modified PNG file to write back
     offset = 0x000692A4  # Offset in the binary file
     width, height = 105, 50  # Dimensions of the image
