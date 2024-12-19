@@ -22,6 +22,8 @@ pip install pillow
 
 ## Template
 You should use this pictures as a temp for ur logo.
+```
+
 ![lumo_des](https://github.com/user-attachments/assets/3f3c2083-8d65-49f0-8774-cc5240bb3a86)
 ![lumo](https://github.com/user-attachments/assets/824c4990-b2d4-4311-866b-e533dd37a689)
 
