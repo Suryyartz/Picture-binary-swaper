@@ -1,60 +1,34 @@
+# pip install pillow
+
 from PIL import Image
-import numpy as np
 
-def convert_image_to_rgb565(image_path, target_pixels):
-    image = Image.open(image_path)
-    image = image.convert("RGB")
+def encode_png_to_monochrome(input_image, output_file, width, height, offset):
+    """
+    Overwrite a binary file with data from a grayscale PNG image, starting at the specified offset.
+    """
+    # Open the input PNG image
+    img = Image.open(input_image).convert("L")  # Ensure the image is in grayscale mode ("L")
     
-    height = 41
-    width = target_pixels // height
+    # Check dimensions
+    if img.size != (width, height):
+        raise ValueError(f"Image dimensions do not match the expected size: {width}x{height}")
     
-    if width * height != target_pixels:
-        width = (target_pixels + height - 1) // height
-    
-    image = image.resize((width, height), Image.LANCZOS)
-    print(f"Resized image size: {image.size}")
-    print(f"Total pixels: {width * height}")
-    
-    rgb_data = np.array(image)
-    rgb565 = ((rgb_data[..., 0] >> 3) << 11) | ((rgb_data[..., 1] >> 2) << 5) | (rgb_data[..., 2] >> 3)
-    flattened = rgb565.flatten()
-    
-    return flattened[:target_pixels]
+    # Get the raw pixel data
+    raw_data = img.tobytes()
 
-def replace_logo_in_binary(binary_file_path, start_address, end_address, new_logo_data):
-    with open(binary_file_path, 'rb') as file:
-        binary_data = bytearray(file.read())
-    
-    expected_size = (end_address - start_address + 1)
-    new_logo_bytes = bytearray()
-    
-    for pixel in new_logo_data:
-        new_logo_bytes.append((pixel >> 8) & 0xFF)
-        new_logo_bytes.append(pixel & 0xFF)
-    
-    binary_data[start_address:end_address + 1] = new_logo_bytes
-    
-    modified_file_path = 'modified_DDF.bin'
-    with open(modified_file_path, 'wb') as modified_file:
-        modified_file.write(binary_data)
-    
-    print(f"Logo replaced and modified binary file saved as '{modified_file_path}'.")
+    # Open the binary file in read/write mode
+    with open(output_file, 'r+b') as f:
+        # Seek to the given offset
+        f.seek(offset)
+        # Write the image data into the binary file
+        f.write(raw_data)
 
-def calculate_total_pixels(start_address, end_address):
-    size_in_bytes = end_address - start_address + 1
-    return size_in_bytes // 2  # RGB565 format, 2 bytes per pixel
+if __name__ == "__main__":
+    # Example usage
+    input_bin_file = r"C:\Users\Abdulhamid\Downloads\Compressed\mod\DDF.bin"  # Binary file to overwrite
+    modified_image = "lumo.png"  # Modified PNG file to write back
+    offset = 0x000692A4  # Offset in the binary file
+    width, height = 105, 50  # Dimensions of the image
 
-def main():
-    binary_file_path = 'DDF.bin'
-    new_logo_path = 'image.png'
-    start_address = 0x0006933b
-    end_address = 0x0006a614
-    
-    total_pixels = calculate_total_pixels(start_address, end_address)
-    print(f"Expected number of pixels: {total_pixels}")
-    
-    rgb565_data = convert_image_to_rgb565(new_logo_path, total_pixels)
-    replace_logo_in_binary(binary_file_path, start_address, end_address, rgb565_data)
-
-if __name__ == '__main__':
-    main()
+    # Encode the PNG data back into the binary file
+    encode_png_to_monochrome(modified_image, input_bin_file, width, height, offset)
