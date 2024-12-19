@@ -25,5 +25,4 @@ You should use this pictures as a temp for ur logo.
 ![lumo_des](https://github.com/user-attachments/assets/3f3c2083-8d65-49f0-8774-cc5240bb3a86)
 ![lumo](https://github.com/user-attachments/assets/824c4990-b2d4-4311-866b-e533dd37a689)
 
-All assets, including this logo, are examples only, I do not claim neither authorship, nor endorse from original author.
-Binary firmware is by DumboRC.
+All assets, including this logo, are provided for educational purposes only. I do not claim authorship nor endorsement from the original creator. The binary firmware is provided by DumboRC.
